@@ -27,6 +27,10 @@ on:
         description: 'COMMON_TREE_URL (if no common tree, leave blank)'
         required: false
         default: 'https://github.com/Shirayuki39/twrp-device_transsion_mt6789-common'
+      COMMON_TREE_BRANCH:
+        description: 'COMMON_TREE_BRANCH (if no common tree, leave blank)'
+        required: false
+        default: 'fox_12.1'
       COMMON_PATH:
         description: 'COMMON_PATH (if no common tree, leave blank)'
         required: false
@@ -112,10 +116,11 @@ jobs:
     - name: Clone common tree
       if: |
         github.event.inputs.COMMON_TREE_URL != null
+        && github.event.inputs.COMMON_TREE_BRANCH != null
         && github.event.inputs.COMMON_PATH != null
       run: |
         cd ${{ steps.pwd.outputs.workspace-folder }}/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
-        git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
+        git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.COMMON_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Set Swap Space
